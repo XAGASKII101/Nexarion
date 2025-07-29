@@ -1,55 +1,60 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { sql } from "@/lib/db"
-import { loginSchema } from "@/lib/schema"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { db } from "@/lib/db"
+import { users } from "@/lib/schema"
+import { eq } from "drizzle-orm"
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { email, password } = loginSchema.parse(body)
+    const { email, password } = await request.json()
 
-    // Get user from database
-    const users = await sql`
-      SELECT * FROM users WHERE email = ${email} LIMIT 1
-    `
+    if (!email || !password) {
+      return NextResponse.json({ error: "Email and password are required" }, { status: 400 })
+    }
 
-    const user = users[0]
-    if (!user) {
+    // Find user by email
+    const user = await db.select().from(users).where(eq(users.email, email)).limit(1)
+
+    if (user.length === 0) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
     // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password_hash)
+    const isValidPassword = await bcrypt.compare(password, user[0].password)
+
     if (!isValidPassword) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
-    // Create session token
-    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.SESSION_SECRET || "fallback-secret", {
-      expiresIn: "7d",
-    })
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        userId: user[0].id,
+        email: user[0].email,
+        role: user[0].role,
+      },
+      process.env.NEXTAUTH_SECRET!,
+      { expiresIn: "7d" },
+    )
 
-    // Create session in database
-    await sql`
-      INSERT INTO sessions (user_id, session_token, expires)
-      VALUES (${user.id}, ${token}, ${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)})
-    `
-
-    // Return user data (without password)
-    const { password_hash, ...userWithoutPassword } = user
-
+    // Create response with user data
     const response = NextResponse.json({
-      user: userWithoutPassword,
+      user: {
+        id: user[0].id,
+        email: user[0].email,
+        name: user[0].name,
+        role: user[0].role,
+      },
       token,
     })
 
     // Set HTTP-only cookie
-    response.cookies.set("session-token", token, {
+    response.cookies.set("auth-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60, // 7 days
+      maxAge: 60 * 60 * 24 * 7, // 7 days
     })
 
     return response

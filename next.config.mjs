@@ -6,11 +6,18 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
-  },
   experimental: {
-    serverComponentsExternalPackages: ["@neondatabase/serverless", "bcryptjs"],
+    serverComponentsExternalPackages: ['bcryptjs']
+  },
+  images: {
+    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+    unoptimized: true,
   },
 }
 

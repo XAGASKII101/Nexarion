@@ -1,9 +1,11 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
+  "name": "nexarion-ai",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "next build",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
@@ -60,7 +62,6 @@
     "@vercel/postgres": "latest",
     "@vitejs/plugin-react": "latest",
     "@xata.io/client": "latest",
-    "autoprefixer": "^10.4.20",
     "bcryptjs": "latest",
     "better-sqlite3": "latest",
     "bufferutil": "latest",
@@ -70,8 +71,7 @@
     "cmdk": "latest",
     "connect-pg-simple": "latest",
     "crypto": "latest",
-    "date-fns": "4.1.0",
-    "drizzle-kit": "latest",
+    "date-fns": "^3.2.0",
     "drizzle-orm": "latest",
     "drizzle-zod": "latest",
     "embla-carousel-react": "latest",
@@ -79,7 +79,6 @@
     "express": "latest",
     "express-session": "latest",
     "fs": "latest",
-    "geist": "^1.3.1",
     "gel": "latest",
     "http": "latest",
     "input-otp": "latest",
@@ -128,9 +127,14 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.20.13",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.2.16",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
