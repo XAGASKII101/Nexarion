@@ -1,30 +1,54 @@
-# nexarion2
+# 🚀 Nexarion AI
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+> **Smart Sales Automation for the Digital Age**
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/margaretonyinye892-1630s-projects/v0-nexarion2)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/rwisdo5DXzx)
+[![Deployed on Vercel](https://img.shields.io/badge/Live%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/margaretonyinye892-1630s-projects/v0-nexarion2)
 
-## Overview
+---
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## 🔥 About Nexarion AI
 
-## Deployment
+**Nexarion AI** is a modern web platform built to help businesses automate and scale their sales across popular social and messaging channels. It features intelligent workflows, beautiful UI, and seamless integrations with tools businesses already use.
 
-Your project is live at:
+- Automates sales on WhatsApp, Instagram, Facebook, and more
+- Smart dashboard with role-based access
+- Real-time updates and billing management
+- Built for speed, scale, and simplicity
 
-**[https://vercel.com/margaretonyinye892-1630s-projects/v0-nexarion2](https://vercel.com/margaretonyinye892-1630s-projects/v0-nexarion2)**
+---
 
-## Build your app
+## 🧠 Project Ownership
 
-Continue building your app on:
+- **Founder & CEO:** [Nleanya Treasure]
+- **Lead Developer:** [Alexius Dubem](https://github.com/XAGASKII101)
 
-**[https://v0.dev/chat/projects/rwisdo5DXzx](https://v0.dev/chat/projects/rwisdo5DXzx)**
+This platform was designed to reflect the vision of empowering small and medium businesses with intelligent digital tools — combining leadership and software excellence.
 
-## How It Works
+---
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## 🌐 Live Deployment
+
+View the live project here:  
+🔗 **[nexarion2.vercel.app](https://vercel.com/margaretonyinye892-1630s-projects/v0-nexarion2)**
+
+---
+
+## ⚙️ Tech Stack
+
+- **Frontend:** Next.js + TypeScript
+- **Styling:** Tailwind CSS
+- **Authentication:** Firebase Auth (Google, Apple, OTP)
+- **Billing:** Stripe Integration
+- **Hosting:** Vercel
+
+---
+
+## 🛠️ Running Locally
+
+Clone and run the project locally using:
+
+```bash
+git clone https://github.com/XAGASKII101/Nexarion.git
+cd Nexarion
+pnpm install
+pnpm dev
