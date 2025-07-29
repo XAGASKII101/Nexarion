@@ -1,119 +1,107 @@
-import { pgTable, text, timestamp, integer, boolean, decimal, uuid } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, boolean, decimal, jsonb } from "drizzle-orm/pg-core"
 import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 import type { z } from "zod"
 
 // Users table
 export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   name: text("name").notNull(),
   role: text("role").notNull().default("user"),
   isActive: boolean("is_active").notNull().default(true),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Integrations table
 export const integrations = pgTable("integrations", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  platform: text("platform").notNull(), // 'whatsapp', 'instagram', 'email'
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  platform: text("platform").notNull(),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   isActive: boolean("is_active").notNull().default(true),
-  settings: text("settings"), // JSON string
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  settings: jsonb("settings"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Campaigns table
 export const campaigns = pgTable("campaigns", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
   name: text("name").notNull(),
   description: text("description"),
-  status: text("status").notNull().default("draft"), // 'draft', 'active', 'paused', 'completed'
-  platform: text("platform").notNull(),
-  targetAudience: text("target_audience"), // JSON string
-  budget: decimal("budget", { precision: 10, scale: 2 }),
-  spent: decimal("spent", { precision: 10, scale: 2 }).default("0"),
-  impressions: integer("impressions").default(0),
-  clicks: integer("clicks").default(0),
-  conversions: integer("conversions").default(0),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  status: text("status").notNull().default("draft"),
+  type: text("type").notNull(),
+  settings: jsonb("settings"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Automations table
 export const automations = pgTable("automations", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
   name: text("name").notNull(),
-  description: text("description"),
-  trigger: text("trigger").notNull(), // JSON string
-  actions: text("actions").notNull(), // JSON string
+  trigger: text("trigger").notNull(),
+  actions: jsonb("actions").notNull(),
   isActive: boolean("is_active").notNull().default(true),
-  executionCount: integer("execution_count").default(0),
-  lastExecuted: timestamp("last_executed"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Affiliates table
 export const affiliates = pgTable("affiliates", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  affiliateCode: text("affiliate_code").notNull().unique(),
-  commissionRate: decimal("commission_rate", { precision: 5, scale: 2 }).notNull().default("20.00"),
-  totalEarnings: decimal("total_earnings", { precision: 10, scale: 2 }).default("0"),
-  totalReferrals: integer("total_referrals").default(0),
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  referralCode: text("referral_code").notNull().unique(),
+  commissionRate: decimal("commission_rate").notNull().default("0.20"),
+  totalEarnings: decimal("total_earnings").notNull().default("0"),
   isActive: boolean("is_active").notNull().default(true),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Payments table
 export const payments = pgTable("payments", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  affiliateId: uuid("affiliate_id").references(() => affiliates.id),
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  amount: decimal("amount").notNull(),
   currency: text("currency").notNull().default("USD"),
-  status: text("status").notNull().default("pending"), // 'pending', 'completed', 'failed'
-  paymentMethod: text("payment_method"),
-  transactionId: text("transaction_id"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  status: text("status").notNull(),
+  stripePaymentId: text("stripe_payment_id"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
 
 // Messages table
 export const messages = pgTable("messages", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  campaignId: uuid("campaign_id").references(() => campaigns.id),
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  campaignId: text("campaign_id").references(() => campaigns.id),
   platform: text("platform").notNull(),
   recipient: text("recipient").notNull(),
   content: text("content").notNull(),
-  status: text("status").notNull().default("pending"), // 'pending', 'sent', 'delivered', 'failed'
+  status: text("status").notNull().default("pending"),
   sentAt: timestamp("sent_at"),
-  deliveredAt: timestamp("delivered_at"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 })
 
-// Zod schemas for validation
+// Zod schemas
 export const insertUserSchema = createInsertSchema(users)
 export const selectUserSchema = createSelectSchema(users)
 export const insertIntegrationSchema = createInsertSchema(integrations)

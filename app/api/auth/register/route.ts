@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import { db } from "@/lib/db"
 import { users } from "@/lib/schema"
 import { eq } from "drizzle-orm"
+import { generateId } from "@/lib/utils"
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,12 +22,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 12)
 
     // Create user
     const newUser = await db
       .insert(users)
       .values({
+        id: generateId(),
         email,
         password: hashedPassword,
         name,
@@ -34,18 +36,12 @@ export async function POST(request: NextRequest) {
       })
       .returning()
 
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        userId: newUser[0].id,
-        email: newUser[0].email,
-        role: newUser[0].role,
-      },
-      process.env.NEXTAUTH_SECRET!,
-      { expiresIn: "7d" },
-    )
+    // Create JWT token
+    const token = jwt.sign({ userId: newUser[0].id, email: newUser[0].email }, process.env.NEXTAUTH_SECRET!, {
+      expiresIn: "7d",
+    })
 
-    // Create response with user data
+    // Create response
     const response = NextResponse.json({
       user: {
         id: newUser[0].id,
@@ -53,7 +49,6 @@ export async function POST(request: NextRequest) {
         name: newUser[0].name,
         role: newUser[0].role,
       },
-      token,
     })
 
     // Set HTTP-only cookie

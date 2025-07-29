@@ -20,21 +20,6 @@ export function formatDate(date: Date | string) {
   }).format(new Date(date))
 }
 
-export function formatDateTime(date: Date | string) {
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(date))
-}
-
-export function generateAffiliateCode(length = 8): string {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-  let result = ""
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return result
+export function generateId() {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36)
 }

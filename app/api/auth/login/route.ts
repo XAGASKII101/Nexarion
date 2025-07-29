@@ -13,10 +13,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 })
     }
 
-    // Find user by email
+    // Find user
     const user = await db.select().from(users).where(eq(users.email, email)).limit(1)
 
-    if (user.length === 0) {
+    if (!user.length) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
@@ -27,18 +27,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        userId: user[0].id,
-        email: user[0].email,
-        role: user[0].role,
-      },
-      process.env.NEXTAUTH_SECRET!,
-      { expiresIn: "7d" },
-    )
+    // Create JWT token
+    const token = jwt.sign({ userId: user[0].id, email: user[0].email }, process.env.NEXTAUTH_SECRET!, {
+      expiresIn: "7d",
+    })
 
-    // Create response with user data
+    // Create response
     const response = NextResponse.json({
       user: {
         id: user[0].id,
@@ -46,7 +40,6 @@ export async function POST(request: NextRequest) {
         name: user[0].name,
         role: user[0].role,
       },
-      token,
     })
 
     // Set HTTP-only cookie
