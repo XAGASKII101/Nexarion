@@ -1,0 +1,144 @@
+Frontend + backend
+
+WhatsApp, Instagram, and email automation
+
+Full affiliate system (20% commission per referral)
+
+Global + Nigerian-friendly payment integration
+
+Admin & user dashboards
+
+API support
+
+Scalable, clean UI
+
+
+
+---
+
+> Prompt:
+Build a complete SaaS platform called Nexarion AI — a unified automation and communication tool for creators, entrepreneurs, coaches, agencies, and small businesses. The platform should allow users to automate follow-ups and DMs across WhatsApp, Instagram, and Email — and include a referral/affiliate system where users earn 20% commission per paying customer they refer.
+
+🧱 Tech Stack:
+
+Frontend: React + Tailwind CSS (optional: Next.js) — must be mobile responsive
+
+Backend: Node.js + Express (or Next.js API routes)
+
+Database: MongoDB (or PostgreSQL if easier)
+
+Hosting: Replit Pro environment
+
+
+🌍 Core Functionalities:
+
+🔐 1. Authentication & User Roles
+
+Email/password signup and login
+
+OAuth login (optional)
+
+Roles: Admin, Creator/Agency (normal user), Affiliate
+
+
+🤖 2. Automation Engine
+
+Allow users to connect WhatsApp (Cloud API), Instagram (Graph API), and Email (SendGrid or Mailgun)
+
+Create smart DM automations (auto-reply to keywords like “guide,” “start,” “price”)
+
+Schedule auto-messages for follow-ups
+
+Allow file sending (PDF, links) in DM flows
+
+Include email automation features (e.g. “send reminder after 1 hour”)
+
+Include templates or “plug-and-play flows”
+
+
+🗣 3. Voice Messaging (Optional Bonus)
+
+Integrate ElevenLabs API to convert text to voice replies or narrations
+
+
+💰 4. Payment Integration (for Nigerian and global users)
+
+Use Paystack and Flutterwave API to handle monthly and yearly subscriptions
+
+Plans: Starter (1 integration), Pro (3 integrations), Business (unlimited)
+
+Allow users to pay in Naira or USD
+
+Secure checkout pages, and webhook to activate account on successful payment
+
+
+📣 5. Affiliate System (20% Commission)
+
+Every user gets a unique affiliate link
+
+Tracks: clicks, signups, conversions
+
+Pay affiliates 20% recurring commission for each paying user they refer
+
+Include payout dashboard (via Paystack or Flutterwave for Nigerians, manual CSV for others)
+
+Admin panel to view/refund/manage commissions
+
+
+📊 6. Creator Dashboard (User Side)
+
+Manage all connected platforms (WhatsApp, Instagram, Email)
+
+Create new campaigns with DM templates or custom messages
+
+View analytics: message sent, opens, responses, conversions
+
+Option to A/B test messages
+
+Easily duplicate campaigns or clone winning templates
+
+
+🧑‍💼 7. Admin Dashboard
+
+View all users, active campaigns, affiliate performance
+
+Set commissions, pause user accounts, monitor abuse
+
+Push updates or announcements
+
+
+🖌 8. UI/UX Requirements
+
+Match existing Nexarion homepage branding
+
+Use modern, sleek UI (inspired by Notion, Zapier, etc.)
+
+Soft shadows, smooth transitions, rounded corners, and dark/light mode
+
+Mobile friendly across all sections
+
+
+📄 9. Landing Pages & Marketing
+
+Public homepage with clear CTA and pricing
+
+Pricing page linked to subscription flow
+
+“Refer & Earn” page explaining affiliate system
+
+“Automation Templates” or “Use Cases” page (explain for creators, agencies, etc.)
+
+
+🛡 10. Security & Compliance
+
+Rate limiting for APIs
+
+Basic GDPR compliance
+
+API key access for platform integrations
+
+Secure auth token storage
+
+
+
+---
